@@ -1,0 +1,278 @@
+.body{
+
+  background-color: rgb(32, 32, 0);
+
+}
+.newGameMain{
+
+  display: grid;
+  grid-template-rows: 200px 100px 100px 100px;
+  justify-items: center;
+
+}
+.titleBar{
+
+  color: rgb(252, 255, 69);
+  font-size: 120px;
+  font-family: 'Dosis';
+
+}
+#userAsk{
+
+  font-size: 40px;
+  color: rgb(252, 255, 69); 
+  font-family: 'Dosis';
+
+}
+.vsUserButton{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(252, 255, 69);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(252, 255, 69); 
+  font-family: 'Dosis';
+  margin-bottom: 30px;
+  width: 250px;
+
+}
+.vsUserButtonPressed{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(191, 194, 0);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(191, 194, 0); 
+  font-family: 'Dosis';
+  margin-bottom: 30px;
+  width: 250px; 
+
+}
+.vsUserButton:hover{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(254, 255, 190);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(254, 255, 190); 
+  font-family: 'Dosis';
+  margin-bottom: 30px;
+  width: 250px;
+
+}
+.vsCompButton{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(252, 255, 69);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(252, 255, 69); 
+  font-family: 'Dosis';
+  margin-bottom: 30px;
+  width: 250px;
+
+}
+.vsCompButton:hover{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(254, 255, 190);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(254, 255, 190); 
+  font-family: 'Dosis';
+  margin-bottom: 30px;
+  width: 250px;
+
+}
+
+
+
+
+
+
+
+.mainContainer{
+
+  display: grid;
+  grid-template-rows: 200px 1fr;
+  justify-items: center;
+
+  background-color: rgb(32, 32, 0);
+
+}
+.gameBody{
+
+  display: grid;
+  grid-template-columns: 1fr 300px 50px 630px 350px 1fr;
+
+}
+.actionBar{
+
+  width: 300px;
+  display: grid;
+  grid-template-rows: 200px 100px 20px 100px 30px 100px;
+
+}
+.resetButton{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(252, 255, 69);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(252, 255, 69); 
+  font-family: 'Dosis';
+  width: 250px;
+
+}
+.resetButton:hover{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(254, 255, 190); 
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(254, 255, 190);  
+  font-family: 'Dosis';
+  width: 250px;
+
+}
+.resetButtonPressed{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(191, 194, 0);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(191, 194, 0);  
+  font-family: 'Dosis';
+  width: 250px;
+
+}
+.playButton{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(252, 255, 69);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(252, 255, 69); 
+  font-family: 'Dosis';
+  width: 250px;
+
+}
+.playButton:hover{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(254, 255, 190); 
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(254, 255, 190);  
+  font-family: 'Dosis';
+  width: 250px;
+
+}
+.playButtonPressed{
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(191, 194, 0);
+  border-radius: 3%;
+  background-color: rgb(32, 32, 0);
+  font-size: 30px;
+  color: rgb(191, 194, 0);  
+  font-family: 'Dosis';
+  width: 250px;
+
+}
+#statusHeader{
+
+  font-size: 30px;
+  color: rgb(252, 255, 69);  
+  font-family: 'Dosis';
+
+}
+#statusInfo{
+
+  font-size: 30px;
+  color: rgb(252, 255, 69);  
+  font-family: 'Dosis';
+
+}
+.gameBoard{
+
+  display: grid;
+
+  height: 630px;
+  grid-template-rows: 200px 15px 200px 15px 200px;
+
+}
+#row{
+
+  height: 200px;
+  width: 630px;
+
+}
+.rowOne{
+
+  display: grid;
+  grid-template-columns: 200px 15px 200px 15px 200px;
+
+}
+.rowTwo{
+
+  display: grid;
+  grid-template-columns: 200px 15px 200px 15px 200px;
+
+}
+.rowThree{
+
+  display: grid;
+  grid-template-columns: 200px 15px 200px 15px 200px;
+
+} 
+#rowDivide{
+
+  background-color: rgba(252, 255, 69, 0.781);
+  height: 15px;
+  width: 630px;
+
+}
+#column{
+
+  width: 200px;
+  height: 200px;
+
+  display: grid;
+
+  font-size: 100px;
+  color: rgb(252, 255, 69);  
+  font-family: 'Dosis';
+  justify-content: center;
+  align-items: center;
+
+
+}
+#columnDivide{
+
+  background-color: rgba(252, 255, 69, 0.781);
+  width: 15px;
+  height: 200px;
+
+}
