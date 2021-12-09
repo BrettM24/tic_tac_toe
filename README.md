@@ -180,6 +180,67 @@ xxx
 #2.5 - "playButton" in the event listener
  - Look at update below
 
+
+#3
+
+- An event listener is in place to listen out for when the reset button is pressed
+- When the button is pressed the following occurs:
+  - The boardArray is cleared of any symbols and empty strings are input into the array.
+  - The gameboard is cleared my running the gameBoardObject.boardUpdate method
+  - The reset button's id, class and text content is reset(for if the button was changed to the play-again button).
+  - statusInfo is reset to "PLAYER ONE'S TURN" as is will be player one's turn again.
+
+
+#4: When the user chooses to play the computer
+
+General:
+
 xxxxxxxxxxxxxxxxxxxx
 
 Update: will build a new variable into gameObject. When a win takes place it will be updated to indicate this. Then, if a user looks to play another turn by pressing on the board, this variable will be used to assess whether this is allowed, and if the variable indicates a win has already taken place, no further turn will be allowed.
+
+
+xxxxx
+
+Where to introduce computer move:
+- On initial board load: We start with user selecting X, therefore will not play move in this position
+- If user selects to play naught: Immediately plays a move
+- General game play: Will play after user has played...how will I do this? Could be run at the end of the eventlistner firing 
+
+1) User is playing with X, user inserts a symbol, and after this computer plays
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Build my own algorithm
+
+Idea is that the computer is doing more than just playing in random places.
+How can I implement this?
+One way is to have a function which checks if the computer can win:
+- Are there currently two symbols in winning index positions and an empty block in the third position?
+- compWinPlay
+- Made up of a win check module and execute function
+- For now, can say if this check comes back negative then will perform a random play
+- The first sign of a win will come back true(while statement) and can return the index position where to play
+- Therefore can return an array, first value being a boolean, 2nd value being the index position
+- Where is the code which checks for winning sequences of numbers?
+- What we can do is the following:
+  - Get the positions the computer is currently occupying
+  - Look for where two symbols are occupying winning positions
+  - Look for if third spot is open
+  - Then occupy
+  - if conditions above not met then do random play
+- Therefore will run this after user has played, much like when random play is run.
+- So, a winning sequence is made up of 3 digits.
+- Therefore there is 3 different ways in which the computer could be sitting with two symbols in correct positions, for each winning sequence: e.g. for the sequence 012, computer could have 0 and 1, 0 and 2, or 1 and 2
+- 3!/ ( (3-2)! * 2! ) = (3 * 2 * 1) / ( 1 * (2 * 1) ) = 3
+- Therefore can run through each winning sequence, and run through each combination of two sequences, looking a match
+- How will we do this?
+- Need to produce all the seperate 2 symbol combinations from what computer has played
+- Can start from before the computer plays its third move
+- Will compare above 2 symbol combos to all of the "winning" combos, i.e. taking the winning combinations, getting each of the 2 digit sequences for each of these, and comparing.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Block user win:
+
+l

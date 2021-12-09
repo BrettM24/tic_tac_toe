@@ -7,7 +7,7 @@ vsUserButton.addEventListener('mousedown', () => {
 
     const gameObject = (() => {
     
-      const _removeStartScreen = function(){
+      const _removeStartScreen = function(){  //#2
 
         const bodyContainer = document.querySelector(".body");
 
@@ -17,7 +17,7 @@ vsUserButton.addEventListener('mousedown', () => {
 
       };
 
-      const loadGameScreen = function(){
+      const loadGameScreen = function(){  //#2
 
         _removeStartScreen();
     
@@ -160,6 +160,7 @@ vsUserButton.addEventListener('mousedown', () => {
         const emptyDivFive = document.createElement('div');
         const emptyDivSix = document.createElement('div');
         const emptyDivSeven = document.createElement('div');
+        const emptyDivEight = document.createElement('div');
     
         actionBar.appendChild(emptyDivOne);
         actionBar.appendChild(statusHeader);
@@ -174,6 +175,7 @@ vsUserButton.addEventListener('mousedown', () => {
         gameBody.appendChild(gameBoard);
         gameBody.appendChild(emptyDivSix);
         gameBody.appendChild(emptyDivSeven);
+        gameBody.appendChild(emptyDivEight);
     
         const refreshStatment = document.createElement('div');
         refreshStatment.setAttribute('id', 'refreshStatement');
@@ -654,6 +656,8 @@ vsUserButton.addEventListener('mousedown', () => {
 
 //#2
 
+    //#3
+
     let resetButton = document.querySelector(".resetButton");
     resetButton.addEventListener('mousedown', () => {
         
@@ -685,6 +689,7 @@ vsUserButton.addEventListener('mousedown', () => {
       });
     
     });
+    //#3
 
   });
 
@@ -695,22 +700,40 @@ vsCompButton.addEventListener('mousedown', () => {
 
   vsCompButton.setAttribute("class", "vsCompButtonPressed");
 
-  /*vsUserButton.addEventListener('mouseup', () => {            //#1
+  vsCompButton.addEventListener('mouseup', () => { 
 
-    const gameObject = (() => {
+    const playerObject = (playerName) => {
+        
+      let playerSymbol;
     
-      const _removeStartScreen = function(){
-
-        const bodyContainer = document.querySelector(".body");
-
-        const newGameMain = document.querySelector(".newGameMain");
-
-        bodyContainer.removeChild(newGameMain);
-
+      if(playerName == "User"){
+    
+        playerSymbol = "X";
+    
+      }else{
+    
+        playerSymbol = "O";
+    
       };
-
+    
+      return {playerSymbol};
+    
+    };
+    
+    const gameObject = (() => {
+        
+      const _removeStartScreen = function(){
+    
+        const bodyContainer = document.querySelector(".body");
+    
+        const newGameMain = document.querySelector(".newGameMain");
+    
+        bodyContainer.removeChild(newGameMain);
+    
+      };
+    
       const loadGameScreen = function(){
-
+    
         _removeStartScreen();
     
         const bodyContainer = document.querySelector(".body");
@@ -734,12 +757,13 @@ vsCompButton.addEventListener('mousedown', () => {
     
         const statusInfo = document.createElement('div');
         statusInfo.setAttribute('id', 'statusInfo');
-        statusInfo.textContent = "PLAYER ONE'S TURN";
+        statusInfo.textContent = "YOUR TURN";
     
         const resetButton = document.createElement('button');
         resetButton.setAttribute('class', 'resetButton');
         resetButton.setAttribute('id', 'reset');
         resetButton.textContent = "RESET";
+
     
         const gameBoard = document.createElement('div');
         gameBoard.setAttribute('class', 'gameBoard');
@@ -844,6 +868,33 @@ vsCompButton.addEventListener('mousedown', () => {
         rowThree.appendChild(columnNine);
     
         gameBoard.appendChild(rowThree);
+
+        
+        const symbolSelect = document.createElement('div');
+        symbolSelect.setAttribute('class', 'symbolSelect');
+
+        const emptyDivEight = document.createElement('div');
+        const emptyDivNine = document.createElement('div');
+
+        const symbolChoice = document.createElement('div');
+        symbolChoice.setAttribute('id', 'symbolChoice');
+        symbolChoice.textContent = 'SYMBOL CHOICE';
+
+        const naughtButton = document.createElement('button');
+        naughtButton.setAttribute('class', 'naughtButton');
+        naughtButton.setAttribute('id', 'naughtButton');
+        naughtButton.textContent = 'O';
+
+        const crossButton = document.createElement('button');
+        crossButton.setAttribute('class', 'crossButton');
+        crossButton.setAttribute('id', 'crossButton');
+        crossButton.textContent = 'X';
+
+        symbolSelect.appendChild(emptyDivEight);
+        symbolSelect.appendChild(symbolChoice);
+        symbolSelect.appendChild(naughtButton);
+        symbolSelect.appendChild(crossButton);
+        symbolSelect.appendChild(emptyDivNine);
     
         const emptyDivOne = document.createElement('div');
         const emptyDivTwo = document.createElement('div');
@@ -865,6 +916,7 @@ vsCompButton.addEventListener('mousedown', () => {
         gameBody.appendChild(emptyDivFive);
         gameBody.appendChild(gameBoard);
         gameBody.appendChild(emptyDivSix);
+        gameBody.appendChild(symbolSelect);
         gameBody.appendChild(emptyDivSeven);
     
         const refreshStatment = document.createElement('div');
@@ -878,16 +930,94 @@ vsCompButton.addEventListener('mousedown', () => {
         bodyContainer.appendChild(mainContainer);
     
       };
+
+      const compWinPlay = (playerComputer, boardArray) => {
+
+        let positionsArrays = _positionGenerator(boardArray);
+        let compPositions;
+
+        if(playerComputer.playerSymbol == "X"){
+
+          compPositions = positionsArrays[0];
+
+        }else{
+
+          compPositions = positionsArrays[1];
+
+        };
+
+        if(compPositions.length >= 2){
+
+          let statementArray = _twoDigitProduce(compPositions);
+          
+          let twoDigitCombos =  _twoDigitGenerate();
+
+          let matchInfo = _twoDigitCompare(statementArray, twoDigitCombos, boardArray);
+
+          if(matchInfo != false){
+
+            boardArray.splice(matchInfo[2], 1, playerComputer.playerSymbol);
+  
+            gameBoardObject.boardUpdate(gameBoardObject.boardArray);
+  
+            let statusInfo = document.querySelector('#statusInfo');
+            statusInfo.textContent = "YOUR TURN";
+        
+            gameObject.winnerCheck(gameBoardObject.boardArray, playerComputer);
+  
+            return true;
+
+          }else{
+
+            return false;
+
+          };
+ 
+        }else{
+
+          return false;
+
+        };
+
+      };
+
+      const blockUserWin = () => {};
     
+      const compRandomPlay = (boardArray, playerComputer) => { 
+
+        let n = 0;
       
+        while(n == 0){
+      
+          let randomNumber = (Math.random() * 9);
+          let compChoice = (randomNumber - randomNumber % 1);
+      
+          if(boardArray[compChoice] == ""){
+      
+            boardArray.splice(compChoice, 1, playerComputer.playerSymbol);
+      
+            n++;
+      
+          };
+      
+        };
+  
+        gameBoardObject.boardUpdate(gameBoardObject.boardArray);
+
+        let statusInfo = document.querySelector('#statusInfo');
+        statusInfo.textContent = "YOUR TURN";
+  
+        gameObject.winnerCheck(gameBoardObject.boardArray, playerComputer);
+
+      };
+    
       //#2.2
       const playerTurn = (boardArray, playerOne, playerTwo, event) => {
     
         //#2.2.1
         let countArray = _countGenerator(boardArray);
-
+    
         let symbolInsert;
-        console.log(event.target);
     
         if(event.target.id == "column"){
     
@@ -899,9 +1029,9 @@ vsCompButton.addEventListener('mousedown', () => {
         return symbolInsert;
     
       };
-
+    
       //#2.4
-      const winnerCheck = (boardArray, winStatus) => {
+      const winnerCheck = (boardArray, playerComputer) => {
     
         let crossCount = 0;
         let naughtCount = 0;
@@ -909,14 +1039,14 @@ vsCompButton.addEventListener('mousedown', () => {
         let naughtPositions = [];
         let winnerCrosses;
         let winnerNaughts;
-
+    
         let countArray = _countGenerator(boardArray);
-
+    
         crossCount = countArray[0];
         naughtCount = countArray[1];
-
+    
         let positionsArray = _positionGenerator(boardArray);
-
+    
         crossPositions = positionsArray[0];
         naughtPositions = positionsArray[1];
     
@@ -936,35 +1066,55 @@ vsCompButton.addEventListener('mousedown', () => {
           
             if(winnerNaughts == true){
               
-              let statusInfo = document.querySelector('#statusInfo');
-              statusInfo.textContent = "PLAYER TWO WINS!!!";
+              if(playerComputer.playerSymbol == "O"){
+
+                let statusInfo = document.querySelector('#statusInfo');
+                statusInfo.textContent = "COMPUTER WINS!!!";
+
+              }else{
+
+                let statusInfo = document.querySelector('#statusInfo');
+                statusInfo.textContent = "YOU WIN!!!";
+
+              };
     
             }else{
     
-              let statusInfo = document.querySelector('#statusInfo');
-              statusInfo.textContent = "PLAYER ONE WINS!!!";
+              if(playerComputer.playerSymbol == "X"){
+
+                let statusInfo = document.querySelector('#statusInfo');
+                statusInfo.textContent = "COMPUTER WINS!!!";
+
+              }else{
+
+                let statusInfo = document.querySelector('#statusInfo');
+                statusInfo.textContent = "YOU WIN!!!";
+
+              };
     
             };
     
             let playButton = document.querySelector('.resetButton');
             playButton.setAttribute("id", "play");
             playButton.textContent = "PLAY AGAIN?";
+
+            return true;
     
           };
-
+    
           _drawTest(winnerNaughts, winnerCrosses, crossCount, naughtCount);
     
         };
     
       };
-
+    
       //#2.4.1
       const _positionGenerator = (boardArray) => {
-
+    
         let positionsArray = [];
         let crossPositions = [];
         let naughtPositions = [];
-
+    
         for(let n = 0; n < 9; n++){
     
           if(boardArray[n] == "X"){
@@ -980,17 +1130,17 @@ vsCompButton.addEventListener('mousedown', () => {
           };
     
         };
-
+    
         positionsArray.push(crossPositions);
         positionsArray.push(naughtPositions);
-
+    
         return positionsArray;
-
+    
       };
-
+    
       //#2.2.1
       const _countGenerator = (boardArray) => {
-
+    
         let crossCount = 0;
         let naughtCount = 0;
         let countArray = [];
@@ -1010,75 +1160,75 @@ vsCompButton.addEventListener('mousedown', () => {
           };
     
         };
-
+    
         countArray.push(crossCount);
         countArray.push(naughtCount);
-
+    
         return countArray;
-
+    
       };
-
+    
       //#2.2.2
       const _symbolUpdate = (countArray, playerOne, playerTwo, event) => {
-
+    
         let crossCount = countArray[0];
         let naughtCount = countArray[1];
         let symbolInsert;
             
         let statusInfo = document.querySelector('#statusInfo');
-
+    
         if(crossCount == naughtCount){ //even number of each, therefore player who is using X's turn
     
           if(playerOne.playerSymbol == "X"){
-  
+    
             symbolInsert = playerOne.playerSymbol;
-
+    
             if(event.target.textContent == "" && event.target.id == "column"){
-
-              statusInfo.textContent = "PLAYER TWO'S TURN";
-
+    
+              statusInfo.textContent = "COMPUTER'S TURN";
+    
             };
-  
+    
           }else{
-  
+    
             symbolInsert = playerTwo.playerSymbol;
-
+    
             if(event.target.textContent == "" && event.target.id == "column"){
-
-              statusInfo.textContent = "PLAYER ONE'S TURN";
-
+    
+              statusInfo.textContent = "YOUR TURN";
+    
             };
-  
+    
           };
           
         }else{
-  
+    
           if(playerOne.playerSymbol == "O"){
-  
+    
             symbolInsert = playerOne.playerSymbol;
             
             if(event.target.textContent == "" && event.target.id == "column"){
-
-              statusInfo.textContent = "PLAYER TWO'S TURN";
-
+    
+              statusInfo.textContent = "COMPUTER'S TURN";
+    
             };
-  
+    
           }else{
-  
+    
             symbolInsert = playerTwo.playerSymbol;
             
             if(event.target.textContent == "" && event.target.id == "column"){
-
-              statusInfo.textContent = "PLAYER ONE'S TURN";
-
+    
+              statusInfo.textContent = "YOUR TURN";
+    
             };
-  
+    
           };
-  
+    
         };
-
+    
         return symbolInsert;
-
+    
       };
     
       //#2.4.2
@@ -1153,6 +1303,48 @@ vsCompButton.addEventListener('mousedown', () => {
         return statementArray;
     
       };
+
+      const _twoDigitProduce = (compPositions) => {
+
+        let statementArray = [];
+
+        if(compPositions.length == 2){
+
+          let combOne = `${compPositions[0]}` + `${compPositions[1]}`;
+
+          statementArray.push(combOne);
+
+        }else if(compPositions.length == 3){
+
+          let combOne = `${compPositions[0]}` + `${compPositions[1]}`;
+          let combTwo = `${compPositions[0]}` + `${compPositions[2]}`;
+          let combThree = `${compPositions[1]}` + `${compPositions[2]}`;
+
+          statementArray.push(combOne);
+          statementArray.push(combTwo);
+          statementArray.push(combThree);
+
+        }else{
+
+          let combOne = `${compPositions[0]}` + `${compPositions[1]}`;
+          let combTwo = `${compPositions[0]}` + `${compPositions[2]}`;
+          let combThree = `${compPositions[0]}` + `${compPositions[3]}`;
+          let combFour = `${compPositions[1]}` + `${compPositions[2]}`;
+          let combFive = `${compPositions[1]}` + `${compPositions[3]}`;
+          let combSix = `${compPositions[2]}` + `${compPositions[3]}`;
+
+          statementArray.push(combOne);
+          statementArray.push(combTwo);
+          statementArray.push(combThree);
+          statementArray.push(combFour);
+          statementArray.push(combFive);
+          statementArray.push(combSix);
+
+        };
+
+        return statementArray;
+
+      };
     
       //#2.4.4
       const _winnerCompare = (statementArray) => {
@@ -1177,49 +1369,86 @@ vsCompButton.addEventListener('mousedown', () => {
     
       };
 
+      const _twoDigitGenerate = () => {
+
+        let combOne = ["01", "02", "12", 2, 1, 0];
+        let combTwo = ["34", "35", "45", 5, 4, 3];
+        let combThree = ["67", "68", "78", 8, 7, 6];
+        let combFour = ["03", "06", "36", 6, 3, 0];
+        let combFive = ["14", "17", "47", 7, 4, 1];
+        let combSix = ["25", "28", "58", 8, 5, 2];
+        let combSeven = ["04", "08", "48", 8, 4, 0];
+        let combEight = ["24", "26", "46", 6, 4, 2];
+
+        let twoDigitCombos = [];
+
+        twoDigitCombos.push(combOne);
+        twoDigitCombos.push(combTwo);
+        twoDigitCombos.push(combThree);
+        twoDigitCombos.push(combFour);
+        twoDigitCombos.push(combFive);
+        twoDigitCombos.push(combSix);
+        twoDigitCombos.push(combSeven);
+        twoDigitCombos.push(combEight);
+
+        return twoDigitCombos;
+
+      };
+
+      const _twoDigitCompare = (statementArray, twoDigitCombos, boardArray) => {
+
+        let returnArray = [];
+
+        for(let m = 0; m < statementArray.length; m++){
+
+          for(let n = 0; n < 8; n++){
+
+            for(let p = 0; p < 3; p++){
+
+              if(statementArray[m] == twoDigitCombos[n][p]){
+
+                if(boardArray[twoDigitCombos[n][(p + 3)]] == ""){
+  
+                  returnArray.push(statementArray[m]);
+                  returnArray.push(twoDigitCombos[n][p]);
+                  returnArray.push(twoDigitCombos[n][(p + 3)]);
+  
+                  return returnArray;
+
+                };
+
+              };
+
+            };
+
+          };
+
+        };
+
+        return false;
+
+      };
+    
       //#2.4.5
       const _drawTest = (winnerNaughts, winnerCrosses, crossCount, naughtCount) => {
-
+    
         if((winnerNaughts != true && winnerCrosses != true) && (crossCount == 5 && naughtCount == 4)){
-
+    
           let statusInfo = document.querySelector('#statusInfo');
           statusInfo.textContent = "TIE!";
           let resetButton = document.querySelector('.resetButton');
           resetButton.textContent = "PLAY AGAIN?";
-
+    
         }; 
-
+    
       };
       
-      return {loadGameScreen, playerTurn, winnerCheck};
+      return {loadGameScreen, playerTurn, winnerCheck, compRandomPlay, compWinPlay};
     
     })();
     
-    //#2.1
-    const playerObject = (playerNumber) => {
-    
-      let playerSymbol;
-    
-      if(playerNumber == 1){
-    
-        playerSymbol = "X";
-        playerName = "PLAYER ONE";
-    
-      }else{
-    
-        playerSymbol = "O";
-        playerName = "PLAYER TWO";
-    
-      };
-    
-      return {playerSymbol};
-    
-    };
-    //#2.1
-    
-    // gameboard module
     const gameBoardObject = (() => {
-    
+        
       let boardArray = ["","","","","","","","",""];
     
       let currentMove; 
@@ -1270,7 +1499,7 @@ vsCompButton.addEventListener('mousedown', () => {
     
         //#2.3.1
         _arrayUpdate(currentMove, playerSymbol);
-
+    
         //#2.3.2
         boardUpdate(boardArray);
     
@@ -1286,10 +1515,10 @@ vsCompButton.addEventListener('mousedown', () => {
         };
     
       };
-
+    
       //#2.3.2
       const boardUpdate = (boardArray) => {
-
+    
         let blockOne = document.querySelector(".blockOne");
         let blockTwo = document.querySelector(".blockTwo");
         let blockThree = document.querySelector(".blockThree");
@@ -1309,13 +1538,188 @@ vsCompButton.addEventListener('mousedown', () => {
         blockSeven.textContent = boardArray[6];
         blockEight.textContent = boardArray[7];
         blockNine.textContent = boardArray[8];
-
+    
       };
     
       return {moveUpdate, boardUpdate, boardArray};
     
     })();
+    
+    gameObject.loadGameScreen();
+    playerUser = playerObject("User");
+    playerComputer = playerObject("Computer");
+    
+    const crossButton = document.querySelector("#crossButton");
+    crossButton.addEventListener('mousedown', () =>{
+    
+      crossButton.setAttribute("class", "crossButtonPressed");
+    
+    });
+    
+    const crossButtonTwo = document.querySelector("#crossButton");
+    crossButtonTwo.addEventListener("mouseup", () => {
+    
+      playerUser.playerSymbol = "X";
+    
+      playerComputer.playerSymbol = "O";
+    
+      for(let m = 0; m < 9; m++){
+        
+        gameBoardObject.boardArray.pop();
+    
+      };
+    
+      for(let a = 0; a < 9; a++){
+    
+        gameBoardObject.boardArray.push("");
+    
+      };
+    
+      gameBoardObject.boardUpdate(gameBoardObject.boardArray);
+    
+      let statusInfo = document.querySelector('#statusInfo');
+      statusInfo.textContent = "YOUR TURN";
 
+      const playButton = document.querySelector('#play');
+      if(playButton != null){
+
+        playButton.setAttribute('id', 'reset');
+        playButton.textContent = "RESET";
+
+      };
+    
+      crossButtonTwo.setAttribute("class", "crossButton");
+    
+    });
+    
+    const naughtButton = document.querySelector("#naughtButton");
+    naughtButton.addEventListener('mousedown', () =>{
+    
+      naughtButton.setAttribute("class", "naughtButtonPressed");
+    
+    });
+    
+    const naughtButtonTwo = document.querySelector("#naughtButton")
+    naughtButton.addEventListener("mouseup", (e) => {
+    
+      playerUser.playerSymbol = "O";
+    
+      playerComputer.playerSymbol = "X";
+    
+      for(let m = 0; m < 9; m++){
+      
+        gameBoardObject.boardArray.pop();
+    
+      };
+    
+      for(let a = 0; a < 9; a++){
+    
+        gameBoardObject.boardArray.push("");
+    
+      };
+    
+      gameBoardObject.boardUpdate(gameBoardObject.boardArray);
+    
+      let statusInfo = document.querySelector('#statusInfo');
+      statusInfo.textContent = "COMPUTER'S TURN";
+    
+      naughtButtonTwo.setAttribute("class", "naughtButton");
+    
+      const playButton = document.querySelector('#play');
+      if(playButton != null){
+
+        playButton.setAttribute('id', 'reset');
+        playButton.textContent = "RESET";
+
+      };
+
+      gameObject.compRandomPlay(gameBoardObject.boardArray, playerComputer);
+    
+    });
+
+    window.addEventListener('click', (e) => {
+
+      const playButton = document.querySelector('#play');
+      
+      if(e.target.id == "column"){
+
+        if(playButton != null){
+      
+          console.log("Do nothing");
+      
+        }else{
+          //#2.3                                          //#2.2
+          gameBoardObject.moveUpdate(e.target.className, gameObject.playerTurn(gameBoardObject.boardArray, playerUser, playerComputer, e));
+          //#2.4
+          let winResult = gameObject.winnerCheck(gameBoardObject.boardArray, playerComputer);
+  
+          if(winResult != true){
+  
+            let compWin = gameObject.compWinPlay(playerComputer, gameBoardObject.boardArray);
+
+            if(compWin == false){
+
+              //Where I will insert comp win function call
+              gameObject.compRandomPlay(gameBoardObject.boardArray, playerComputer);
+
+            };
+  
+          };
+  
+        };
+
+      };
+
+    });
+
+    let resetButton = document.querySelector(".resetButton");
+    resetButton.addEventListener('mousedown', () => {
+        
+      resetButton.setAttribute('class', 'resetButtonPressed');
+    
+      resetButton.addEventListener('mouseup', () => {
+    
+        for(let m = 0; m < 9; m++){
+    
+          gameBoardObject.boardArray.pop();
+    
+        };
+    
+        for(let a = 0; a < 9; a++){
+    
+          gameBoardObject.boardArray.push("");
+    
+        };
+    
+        gameBoardObject.boardUpdate(gameBoardObject.boardArray);
+    
+        resetButton.setAttribute('class', 'resetButton');
+        resetButton.setAttribute('id', 'reset');
+        resetButton.textContent = "RESET";
+
+        if(playerComputer.playerSymbol == "X"){
+
+          let statusInfo = document.querySelector('#statusInfo');
+          statusInfo.textContent = "COMPUTER'S TURN";
+
+          gameObject.compRandomPlay(gameBoardObject.boardArray, playerComputer);
+
+        }else{
+
+          let statusInfo = document.querySelector('#statusInfo');
+          statusInfo.textContent = "YOUR TURN";
+
+        };
+    
+      });
+    
+    });
+
+  });
+
+});
+
+/*
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 //#2
@@ -1380,4 +1784,4 @@ vsCompButton.addEventListener('mousedown', () => {
 
   });*/
 
-});
+//});
